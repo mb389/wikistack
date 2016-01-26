@@ -2,11 +2,10 @@ var express = require('express');
 var fs=require('fs');
 app=express();
 var path = require("path");
-var io = socketio.listen(server);
 var swig = require('swig');
 var morgan = require('morgan');
 var bodyParser = require('body-parser');
-var makesRouter = require('./routes');
+var wikiRouter = require('./routes/wiki');
 
 var server = app.listen(1337,  function(req, res, next){
   console.log("Server listening");
@@ -22,6 +21,7 @@ app.engine('html', swig.renderFile);
 // turn of swig's caching
 swig.setDefaults({cache: false});
 
+
 app.use(express.static(path.join(__dirname, '/public')));
 //app.use(morgan('dev'));
 app.use(morgan('combined', {stream: accessLogStream}));
@@ -33,4 +33,4 @@ var accessLogStream = fs.createWriteStream(__dirname + '/access.log', {flags: 'a
 // body parsing middleware
 app.use(bodyParser.urlencoded({ extended: true })); // for HTML form submits
 app.use(bodyParser.json()); // would be for AJAX requests
-app.use('/', makesRouter(io));
+app.use('/wiki', wikiRouter);

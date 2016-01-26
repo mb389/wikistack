@@ -3,7 +3,10 @@
 {% block content %}
   <h3>Pages</h3>
   <hr>
-  <ul class="list-unstyled">
+  <ul>
     <!-- PLACEHOLDER LIST OF PAGES -->
+    {% for title in titles %}
+    <li><a href="/wiki/{{title.urlTitle}}">{{title.title}}</a></li>
+    {% endfor %}
   </ul>
 {% endblock %}
